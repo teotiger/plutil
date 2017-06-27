@@ -12,5 +12,6 @@ PLUtil is released under the [MIT license](https://github.com/teotiger/plutil/bl
 ## Version History
 Version 0.2 – June 27, 2017
 * Complete refactoring
+
 Version 0.1 – April 5, 2017
 * Initial release
