@@ -13,7 +13,7 @@ as
   subtype vc2_m is varchar2_m;
   subtype vc2_l is varchar2_l;
   subtype vc2_xl is varchar2_xl;
-  subtype bool is binary_integer range 0..1;
+  subtype bool is binary_integer range 0..1 not null;
   /****************************************************************************
   *** COLLECTION TYPES
   ****************************************************************************/
