@@ -5,7 +5,7 @@ as
   ****************************************************************************/
   subtype varchar2_xs is varchar2(1 char);      -- (2^1)-1
   subtype varchar2_s is varchar2(30 char);      -- (2^5)-2 oracle object length
-  subtype varchar2_m is varchar2(256 char);     -- (2^8)
+  subtype varchar2_m is varchar2(255 char);     -- (2^8)-1
   subtype varchar2_l is varchar2(4000 char);    -- (2^12)-96  max. SQL  4000
   subtype varchar2_xl is varchar2(32767 char);  -- (2^15)-1   max. PLSQL
   subtype vc2_xs is varchar2_xs;
