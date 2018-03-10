@@ -10,6 +10,9 @@ Simply run the install script from the setup folder inside SQL*Plus.
 PLUtil is released under the [MIT license](https://github.com/teotiger/plutil/blob/master/license.txt).
 
 ## Version History
+Version 0.3 – March 10, 2018
+* new functions added (cpad, days_in_month, format_seconds)
+
 Version 0.2 – June 27, 2017
 * Complete refactoring
 
