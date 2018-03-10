@@ -4,6 +4,26 @@ as
   c_language  constant vc2_s:='language';-- sys_context parameter value
   c_year_fmt  constant vc2_s:='yyyy';    -- year format string
 --------------------------------------------------------------------------------
+  function cpad(
+      p_string in varchar2,
+      p_length in integer,
+      p_char   in varchar2)
+    return varchar2 deterministic
+  is
+    $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
+    c_div constant pls_integer:=2;
+    l_string vc2_l:=p_string;
+    l_length pls_integer:=p_length;
+    l_char vc2_xs:=p_char;
+    l_surround vc2_l;
+  begin
+    l_length:=l_length-mod(l_length-length(l_string),c_div);
+    l_surround:=lpad(l_char,
+                     (l_length-length(l_string))/c_div,
+                     l_char);
+    return l_surround||l_string||l_surround;
+  end cpad;
+--------------------------------------------------------------------------------
   function current_charset
     return varchar2 deterministic
   is
@@ -51,6 +71,17 @@ as
     );
   end current_iso_locale;
 --------------------------------------------------------------------------------
+  function days_in_month(
+      p_month in date)
+    return integer deterministic
+  is
+    $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
+    c_last_month constant pls_integer:=-1;
+    l_month date not null:=p_month;
+  begin
+    return last_day(l_month)-last_day(add_months(l_month,c_last_month));
+  end days_in_month;
+--------------------------------------------------------------------------------
   function days_in_year(
       p_year in date)
     return integer deterministic
@@ -81,6 +112,27 @@ as
       end;
   end days_in_year;
 --------------------------------------------------------------------------------
+  function format_seconds(
+      p_seconds in number)
+    return varchar2 deterministic
+  is
+    $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
+    c_ss constant pls_integer:=60;
+    c_mm constant pls_integer:=3600;
+    c_pl constant pls_integer:=2;
+    c_pc constant vc2_xs:='0';
+    c_dp constant vc2_xs:=':';
+    l_seconds naturaln:=p_seconds;
+  begin
+    return 
+      case when floor(l_seconds/c_mm)>0 
+        then floor(l_seconds/c_mm)||c_dp 
+      end
+      || lpad( floor(mod(l_seconds,c_mm)/c_ss) ,c_pl,c_pc)
+      || c_dp
+      || lpad( mod(l_seconds,c_ss) ,c_pl,c_pc);
+  end format_seconds;
+--------------------------------------------------------------------------------
   function is_leap_year(
       p_year in date)
     return boolean deterministic
@@ -110,4 +162,3 @@ as
 --------------------------------------------------------------------------------
 end plutil;
 /
-

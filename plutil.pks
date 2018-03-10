@@ -13,6 +13,11 @@ as
   subtype vc2_m is varchar2_m;
   subtype vc2_l is varchar2_l;
   subtype vc2_xl is varchar2_xl;
+  subtype vc_xs is varchar2_xs;
+  subtype vc_s is varchar2_s;
+  subtype vc_m is varchar2_m;
+  subtype vc_l is varchar2_l;
+  subtype vc_xl is varchar2_xl;
   subtype bool is binary_integer range 0..1 not null;
   /****************************************************************************
   *** COLLECTION TYPES
@@ -28,6 +33,17 @@ as
   /****************************************************************************
   *** SUBPROGRAMS
   ****************************************************************************/
+  -- This function returns the passed string surrounded to the specified length
+  -- with the specified character. If the string can not be centered exactly in
+  -- the middle, the total length is reduced by one.
+  -- @The string to surround by a character.
+  -- @The total length of the returned expression.
+  -- @The character to surround the passed the string.
+  function cpad(
+      p_string in varchar2,
+      p_length in integer,
+      p_char   in varchar2)
+    return varchar2 deterministic;
   -- This function returns the current charset.
   function current_charset
     return varchar2 deterministic;
@@ -37,6 +53,11 @@ as
   -- This function returns the current iso locale (ISO-3166).
   function current_iso_locale
     return varchar2 deterministic;
+  -- This function returns the number of days in the month.
+  -- @The date to check.
+  function days_in_month(
+      p_month in date)
+    return integer deterministic;
   -- This function returns the number of days in the year.
   -- @The date to check.
   function days_in_year(
@@ -47,6 +68,11 @@ as
   function days_in_year(
       p_year in integer)
     return integer deterministic;
+  -- This function formats the number of seconds.
+  -- @The number of seconds.
+  function format_seconds(
+      p_seconds in number)
+    return varchar2 deterministic;
   -- This function checks if the date is a leap year or not.
   -- @The date to check.
   function is_leap_year(
@@ -59,4 +85,3 @@ as
     return boolean deterministic;
 end plutil;
 /
-
