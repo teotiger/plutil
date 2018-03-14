@@ -2,30 +2,30 @@
 
 .. contents:: PLUtil API Reference
 
-Data Types
-**********
+Types
+*****
 
-Coming soon...
+Data Types
+==========
+Subtypes, records etc.
 
 Collection Types
-****************
-
-Coming soon...
+================
+Table Types, VArrays etc.
 
 Subprograms
 **********
 
-Functions (SQL)
-===============
+SQL Functions
+=============
 
 DAYS_IN_YEAR
 ~~~~~~~~~~~~
 This function...
 
-Functions (PLSQL)
-~~~~~~~~~~~~~~~~~
-Empty.
+PLSQL Functions and Procedures
+==============================
 
-Procedures
-~~~~~~~~~~
-Empty.
+IS_LEAP_YEAR
+~~~~~~~~~~~~
+Return boolean.
