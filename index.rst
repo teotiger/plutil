@@ -1,10 +1,6 @@
-====================
-PLUtil Documentation
-====================
-
 .. sectnum::
 
-.. contents:: API Reference
+.. contents:: PLUtil API Reference
 
 Data Types
 **********
