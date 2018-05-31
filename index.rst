@@ -7,11 +7,7 @@ Contents:
     :maxdepth: 2
 
 
-PLUTIL
-======
-
-
-FgUNCTION CPAD
+FhUNCTION CPAD
 -------------
 
 This function returns the passed string surrounded to the specified length with the specified character. If the string can not be centered exactly in the middle, the total length is reduced by one.
