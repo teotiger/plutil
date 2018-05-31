@@ -1,11 +1,10 @@
+PLUTIL PL/SQL Package Reference
+===============================
 
-====================
-PLDOCU documentation
-====================
+Contents:
 
-------------------------
-Created from PLSQL code.
-------------------------
+.. toctree::
+    :maxdepth: 1
 
 
 PLUTIL
