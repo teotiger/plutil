@@ -4,15 +4,14 @@ PLUTIL PL/SQL Package Reference
 Contents:
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
 
 PLUTIL
 ======
 
 
-
-FUNCTION CPAD
+FgUNCTION CPAD
 -------------
 
 This function returns the passed string surrounded to the specified length with the specified character. If the string can not be centered exactly in the middle, the total length is reduced by one.
