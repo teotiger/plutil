@@ -1,7 +1,5 @@
-FUNCTION CURRENT_ISO_LANGUAGE
+CURRENT_ISO_LANGUAGE Function
 =============================
-
-.. contents:: PLUtil API Reference
 
 Description
 -----------
