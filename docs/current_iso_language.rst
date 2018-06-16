@@ -1,19 +1,18 @@
-PLUTIL PL/SQL Package Reference
-===============================
+FUNCTION CURRENT_ISO_LANGUAGE
+=============================
 
 .. contents:: PLUtil API Reference
 
-FUNCTION CURRENT_ISO_LANGUAGE
------------------------------
+Description
+-----------
 
 This function returns the current iso language (ISO-3166).
 
 Syntax
-``````
+-----------
 
 .. code-block:: SQL
 
   PLUTIL.CURRENT_ISO_LANGUAGE
-  
-  RETURN VARCHAR2;
+    RETURN VARCHAR2;
 
