@@ -1,5 +1,5 @@
-DAYS_IN_YEAR Function
-=====================
+DAYS_IN_YEAR Function (1)
+=========================
 
 This function returns the number of days in the year.
 
