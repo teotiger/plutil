@@ -3,4 +3,4 @@
 .scannerwork
 *.properties
 sonar*.sh
-./tests/sonar*xml
+sonar*xml
