@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<testExecutions version="1">
-<file path="./tests/plutil_test.pkb">
-<testCase name="days_in_year_1999" duration="3" >
-</testCase>
-</file>
-</testExecutions>
