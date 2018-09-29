@@ -1,4 +1,6 @@
 # Sonar related files #
 #######################
-sonar.sh
 .scannerwork
+*.properties
+sonar*.sh
+./tests/sonar*xml
