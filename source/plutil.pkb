@@ -1,20 +1,20 @@
-CREATE OR REPLACE package body plutil
+create or replace package body plutil
 as
   c_namespace constant vc2_s:='userenv'; -- sys_context namespace value
   c_language  constant vc2_s:='language';-- sys_context parameter value
   c_year_fmt  constant vc2_s:='yyyy';    -- year format string
 --------------------------------------------------------------------------------
   function cpad(
-      p_string in varchar2,
-      p_length in integer,
-      p_char   in varchar2)
+      a_string in varchar2,
+      a_length in integer,
+      a_char   in varchar2)
     return varchar2 deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
     c_div constant pls_integer:=2;
-    l_string vc2_l:=p_string;
-    l_length pls_integer:=p_length;
-    l_char vc2_xs:=p_char;
+    l_string vc2_l:=a_string;
+    l_length pls_integer:=a_length;
+    l_char vc2_xs:=a_char;
     l_surround vc2_l;
   begin
     l_length:=l_length-mod(l_length-length(l_string),c_div);
@@ -72,23 +72,23 @@ as
   end current_iso_locale;
 --------------------------------------------------------------------------------
   function days_in_month(
-      p_month in date)
+      a_month in date)
     return integer deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
     c_last_month constant pls_integer:=-1;
-    l_month date not null:=p_month;
+    l_month date not null:=a_month;
   begin
     return last_day(l_month)-last_day(add_months(l_month,c_last_month));
   end days_in_month;
 --------------------------------------------------------------------------------
   function days_in_year(
-      p_year in date)
+      a_year in date)
     return integer deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
     c_year_in_months constant pls_integer:=12;
-    l_year date not null:=p_year;
+    l_year date not null:=a_year;
     l_next_year date;
   begin
     l_next_year:=add_months(l_year,c_year_in_months);
@@ -97,13 +97,13 @@ as
   end days_in_year;
 --------------------------------------------------------------------------------
   function days_in_year(
-      p_year in integer)
+      a_year in integer)
     return integer deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
     c_days_in_normal_year constant pls_integer:=365;
     c_days_in_leap_year constant pls_integer:=366;
-    l_year pls_integer not null:=p_year;    
+    l_year pls_integer not null:=a_year;    
   begin
     return 
       case when is_leap_year(l_year) 
@@ -113,7 +113,7 @@ as
   end days_in_year;
 --------------------------------------------------------------------------------
   function format_seconds(
-      p_seconds in number)
+      a_seconds in number)
     return varchar2 deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
@@ -122,7 +122,7 @@ as
     c_pl constant pls_integer:=2;
     c_pc constant vc2_xs:='0';
     c_dp constant vc2_xs:=':';
-    l_seconds naturaln:=p_seconds;
+    l_seconds naturaln:=a_seconds;
   begin
     return 
       case when floor(l_seconds/c_mm)>0 
@@ -134,28 +134,27 @@ as
   end format_seconds;
 --------------------------------------------------------------------------------
   function is_leap_year(
-      p_year in date)
+      a_year in date)
     return boolean deterministic
   is
-    l_year date not null:=p_year;
+    l_year date not null:=a_year;
   begin
     return is_leap_year(extract(year from l_year));
   end is_leap_year;
 --------------------------------------------------------------------------------
   function is_leap_year(
-      p_year in pls_integer)
+      a_year in pls_integer)
     return boolean deterministic
   is
     c_ly_normal constant pls_integer:=4;
     c_ly_extra1 constant pls_integer:=100;
     c_ly_extra2 constant pls_integer:=400;
-    l_year pls_integer not null:=p_year;
+    l_year pls_integer not null:=a_year;
     l_out boolean:=false;
   begin
-    if mod(l_year,c_ly_normal)=0 then
-      if not(mod(l_year,c_ly_extra1)=0 and mod(l_year,c_ly_extra2)<>0) then
-        l_out:=true;
-      end if;
+    if mod(l_year,c_ly_normal)=0 and 
+       (not(mod(l_year,c_ly_extra1)=0 and mod(l_year,c_ly_extra2)<>0)) then
+      l_out:=true;      
     end if;
     return l_out;
   end is_leap_year;

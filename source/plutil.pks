@@ -1,4 +1,4 @@
-CREATE OR REPLACE package plutil authid current_user
+create or replace package plutil authid current_user
 as
   /****************************************************************************
   *** DATA TYPES
@@ -22,14 +22,14 @@ as
   /****************************************************************************
   *** COLLECTION TYPES
   ****************************************************************************/
-  type t_number_aa is table of number index by vc2_m;
-  type t_integer_aa is table of integer index by vc2_m;
-  type t_int_aa is table of integer index by vc2_m;
-  type t_date_aa is table of date index by vc2_m;
-  type t_varchar2_aa is table of vc2_xl index by vc2_m;
-  type t_vc2_aa is table of vc2_xl index by vc2_m;
-  type t_clob_aa is table of clob index by vc2_m;
-  type t_blob_aa is table of blob index by vc2_m;
+  type number_aa is table of number index by vc2_m;
+  type integer_aa is table of integer index by vc2_m;
+  type int_aa is table of integer index by vc2_m;
+  type date_aa is table of date index by vc2_m;
+  type varchar2_aa is table of vc2_xl index by vc2_m;
+  type vc2_aa is table of vc2_xl index by vc2_m;
+  type clob_aa is table of clob index by vc2_m;
+  type blob_aa is table of blob index by vc2_m;
   /****************************************************************************
   *** SUBPROGRAMS
   ****************************************************************************/
@@ -40,9 +40,9 @@ as
   -- @The total length of the returned expression.
   -- @The character to surround the passed the string.
   function cpad(
-      p_string in varchar2,
-      p_length in integer,
-      p_char   in varchar2)
+      a_string in varchar2,
+      a_length in integer,
+      a_char   in varchar2)
     return varchar2 deterministic;
   -- This function returns the current charset.
   function current_charset
@@ -56,32 +56,32 @@ as
   -- This function returns the number of days in the month.
   -- @The date to check.
   function days_in_month(
-      p_month in date)
+      a_month in date)
     return integer deterministic;
   -- This function returns the number of days in the year.
   -- @The date to check.
   function days_in_year(
-      p_year in date)
+      a_year in date)
     return integer deterministic;
   -- This function returns the number of days in the year.
   -- @The year in the format YYYY.
   function days_in_year(
-      p_year in integer)
+      a_year in integer)
     return integer deterministic;
   -- This function formats the number of seconds.
   -- @The number of seconds.
   function format_seconds(
-      p_seconds in number)
+      a_seconds in number)
     return varchar2 deterministic;
   -- This function checks if the date is a leap year or not.
   -- @The date to check.
   function is_leap_year(
-      p_year in date)
+      a_year in date)
     return boolean deterministic;
   -- This function checks if the year is a leap year or not.
   -- @The year in the format YYYY.
   function is_leap_year(
-      p_year in pls_integer)
+      a_year in pls_integer)
     return boolean deterministic;
 end plutil;
 /
