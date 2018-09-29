@@ -30,6 +30,12 @@ create or replace package body plutil_test as
     ut.expect( plutil.days_in_year(1996) ).to_( equal(366) );
   end days_in_year_1996;
 --------------------------------------------------------------------------------
+  procedure days_in_year_1998 is
+    l_dat date := to_date('28081998','ddmmyyyy');
+  begin
+    ut.expect( plutil.days_in_year(l_dat) ).to_( equal(365) );
+  end days_in_year_1998;
+--------------------------------------------------------------------------------
   procedure days_in_year_1999 is
   begin
     ut.expect( plutil.days_in_year(1999) ).to_( equal(365) );

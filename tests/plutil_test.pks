@@ -20,6 +20,9 @@ create or replace package plutil_test authid definer as
   -- %test(Returns 366 days because 1996 is a leap year.)
   procedure days_in_year_1996;
 
+  -- %test(Returns 365 days because 1998 is not a leap year.)
+  procedure days_in_year_1998;
+
   -- %test(Returns 365 days because 1999 is not a leap year.)
   procedure days_in_year_1999;
 
