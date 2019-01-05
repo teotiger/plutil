@@ -2,6 +2,18 @@ create or replace package plutil_test authid definer as
 
   -- %suite(UnitTests for PLUTIL functions)
 
+  -- %test(Returns 1,7KiB)
+  procedure format_bytes_base2default;  
+
+  -- %test(Returns 1,7kB)
+  procedure format_bytes_base10;
+  
+  -- %test(Returns 1GiB)
+  procedure format_bytes_big_base2;
+  
+  -- %test(Returns 1,1GB)
+  procedure format_bytes_big_base10;
+			  
   -- %test(Returns 00:59)
   procedure format_seconds_59;
   

@@ -1,5 +1,25 @@
 create or replace package body plutil_test as
 --------------------------------------------------------------------------------
+  procedure format_bytes_base2default is
+  begin
+    ut.expect( plutil.format_bytes(1704) ).to_( equal('1,7KiB') );
+  end format_bytes_base2default;
+--------------------------------------------------------------------------------
+  procedure format_bytes_base10 is
+  begin
+    ut.expect( plutil.format_bytes(1704, 10) ).to_( equal('1,7kB') );
+  end format_bytes_base10;
+--------------------------------------------------------------------------------
+  procedure format_bytes_big_base2 is
+  begin
+    ut.expect( plutil.format_bytes(1024*1024*1024, 2) ).to_( equal('1GiB') );
+  end format_bytes_big_base2;
+--------------------------------------------------------------------------------
+  procedure format_bytes_big_base10 is
+  begin
+    ut.expect( plutil.format_bytes(1024*1024*1024, 10) ).to_( equal('1,1GB') );
+  end format_bytes_big_base10;
+--------------------------------------------------------------------------------
   procedure format_seconds_59 is
   begin
     ut.expect( plutil.format_seconds(59) ).to_( equal('00:59') );

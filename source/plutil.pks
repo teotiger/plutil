@@ -68,6 +68,13 @@ as
   function days_in_year(
       a_year in integer)
     return integer deterministic;
+  -- This function formats the number of bytes.
+  -- @The number of bytes.
+  -- @The base. Must be 2 (default) or 10. If not, base 2 is used.
+  function format_bytes(
+      a_bytes in number,
+      a_base  in number default 2)
+    return varchar2 deterministic;  
   -- This function formats the number of seconds.
   -- @The number of seconds.
   function format_seconds(

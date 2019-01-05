@@ -112,6 +112,36 @@ as
       end;
   end days_in_year;
 --------------------------------------------------------------------------------
+  function format_bytes(
+      a_bytes in number,
+      a_base  in number)
+    return varchar2 deterministic
+  is
+    $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
+    l_bytes number not null:=a_bytes;
+    type ts is varray(9) of varchar2(3 char);
+    -- https://en.wikipedia.org/wiki/Kilobyte
+    l_2iec constant ts
+      :=ts('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
+    l_10si constant ts
+      :=ts('B', 'kB', 'MB',  'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+    l_idx simple_integer:=1;
+    l_div number:=1024;
+  begin
+    if a_base=10
+      then l_div:=1000;
+    end if;
+
+    while l_bytes>=l_div
+    loop
+      l_idx:=l_idx+1;
+      l_bytes:=l_bytes/l_div;
+    end loop;
+    
+    return to_char(round(l_bytes,1))||
+           case when l_div=1000 then l_10si(l_idx) else l_2iec(l_idx) end;
+  end format_bytes;
+--------------------------------------------------------------------------------
   function format_seconds(
       a_seconds in number)
     return varchar2 deterministic
