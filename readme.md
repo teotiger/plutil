@@ -8,7 +8,7 @@ Simply run the install script from the setup folder inside SQL*Plus.
 
 ## Documentation
 
-The documentation of the subprograms in the package can be found [here](http://www.google.de).
+The documentation of the subprograms in the package can be found [here](https://plutil.readthedocs.io/en/latest/index.html).
 
 ## License
 
