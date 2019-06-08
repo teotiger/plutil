@@ -16,8 +16,8 @@ Parameter
 ---------
 
 ===================== =====================
-Parametername         Parameterbeschreibung
+Parameter             Description
 ===================== =====================
-P_YEAR                The year in the format YYYY.
+A_YEAR                The year in the format YYYY.
 ===================== =====================
 

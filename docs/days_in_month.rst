@@ -16,8 +16,8 @@ Parameter
 ---------
 
 ===================== =====================
-Parametername         Parameterbeschreibung
+Parameter             Description
 ===================== =====================
-P_MONTH               The date to check.
+A_MONTH               The date to check.
 ===================== =====================
 

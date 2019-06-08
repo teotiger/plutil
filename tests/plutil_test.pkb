@@ -1,24 +1,61 @@
 create or replace package body plutil_test as
 --------------------------------------------------------------------------------
-  procedure format_bytes_base2default is
+  procedure date_to_unix_timestamp_min is
   begin
-    ut.expect( plutil.format_bytes(1704) ).to_( equal('1,7KiB') );
-  end format_bytes_base2default;
+    ut.expect(
+      plutil.date_to_unix_timestamp( plutil.unix_timestamp_to_date(1) )
+    ).to_( equal(1) );
+  end date_to_unix_timestamp_min;
 --------------------------------------------------------------------------------
-  procedure format_bytes_base10 is
+  procedure unix_timestamp_to_date_min is
+    c_exp date:=to_date(19011213204552,'yyyymmddhh24miss');
   begin
-    ut.expect( plutil.format_bytes(1704, 10) ).to_( equal('1,7kB') );
-  end format_bytes_base10;
+    ut.expect( 
+      plutil.unix_timestamp_to_date(power(-2,31)) ).to_( equal(c_exp) 
+    );
+  end unix_timestamp_to_date_min;
 --------------------------------------------------------------------------------
-  procedure format_bytes_big_base2 is
+  procedure unix_timestamp_to_date_max is
+    c_exp date:=to_date(20380119031407,'yyyymmddhh24miss');
   begin
-    ut.expect( plutil.format_bytes(1024*1024*1024, 2) ).to_( equal('1GiB') );
-  end format_bytes_big_base2;
+    ut.expect(
+      plutil.unix_timestamp_to_date(power(2,31)-1) ).to_( equal(c_exp) 
+    );
+  end unix_timestamp_to_date_max;
 --------------------------------------------------------------------------------
-  procedure format_bytes_big_base10 is
+  procedure hex_to_rgb_red is
   begin
-    ut.expect( plutil.format_bytes(1024*1024*1024, 10) ).to_( equal('1,1GB') );
-  end format_bytes_big_base10;
+    ut.expect( plutil.hex_to_rgb('#FF0000') ).to_( equal('rgb(255, 0, 0)') );
+  end hex_to_rgb_red;
+--------------------------------------------------------------------------------
+  procedure rgb_to_hex_red is
+  begin
+    ut.expect( plutil.rgb_to_hex(255, 0, 0) ).to_( equal('#ff0000') );
+  end rgb_to_hex_red;
+--------------------------------------------------------------------------------
+  procedure format_bytes_binary_small is
+  begin
+    ut.expect( plutil.format_bytes_binary(1704) ).to_( equal('1,7KiB') );
+  end format_bytes_binary_small;
+--------------------------------------------------------------------------------
+  procedure format_bytes_decimal_small is
+  begin
+    ut.expect( plutil.format_bytes_decimal(1704) ).to_( equal('1,7kB') );
+  end format_bytes_decimal_small;
+--------------------------------------------------------------------------------
+  procedure format_bytes_binary_big is
+  begin
+    ut.expect( 
+      plutil.format_bytes_binary(1024*1024*1024) ).to_( equal('1GiB') 
+    );
+  end format_bytes_binary_big;
+--------------------------------------------------------------------------------
+  procedure format_bytes_decimal_big is
+  begin
+    ut.expect( 
+      plutil.format_bytes_decimal(1024*1024*1024 ) ).to_( equal('1,1GB') 
+    );
+  end format_bytes_decimal_big;
 --------------------------------------------------------------------------------
   procedure format_seconds_59 is
   begin

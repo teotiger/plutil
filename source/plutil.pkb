@@ -3,6 +3,7 @@ as
   c_namespace constant vc2_s:='userenv'; -- sys_context namespace value
   c_language  constant vc2_s:='language';-- sys_context parameter value
   c_year_fmt  constant vc2_s:='yyyy';    -- year format string
+  c_unix_epti constant date:=to_date(19700101,'yyyymmdd');  
 --------------------------------------------------------------------------------
   function cpad(
       a_string in varchar2,
@@ -71,6 +72,21 @@ as
     );
   end current_iso_locale;
 --------------------------------------------------------------------------------
+  function date_to_unix_timestamp(
+      a_date in date)
+    return number deterministic
+  is
+    $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
+    c_div constant simple_integer:=86400;   
+    l_date date not null:=a_date;
+    l_out pls_integer;
+  begin
+    l_out:=case when l_date>=c_unix_epti 
+            then (l_date-c_unix_epti)*c_div
+           end;
+    return l_out;
+  end date_to_unix_timestamp;
+--------------------------------------------------------------------------------
   function days_in_month(
       a_month in date)
     return integer deterministic
@@ -112,35 +128,40 @@ as
       end;
   end days_in_year;
 --------------------------------------------------------------------------------
-  function format_bytes(
-      a_bytes in number,
-      a_base  in number)
+  function format_bytes_binary(
+        a_bytes in number)
     return varchar2 deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
-    l_bytes number not null:=a_bytes;
-    type ts is varray(9) of varchar2(3 char);
+    type ts is varray(7) of varchar2(3 char);
     -- https://en.wikipedia.org/wiki/Kilobyte
-    l_2iec constant ts
-      :=ts('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
-    l_10si constant ts
-      :=ts('B', 'kB', 'MB',  'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
-    l_idx simple_integer:=1;
-    l_div number:=1024;
+    c_bin_iec constant ts:=ts('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB');
+    c_bin_div constant simple_integer:=1024;
+    l_bytes naturaln:=a_bytes; 
+    l_floor decimal;
   begin
-    if a_base=10
-      then l_div:=1000;
-    end if;
-
-    while l_bytes>=l_div
-    loop
-      l_idx:=l_idx+1;
-      l_bytes:=l_bytes/l_div;
-    end loop;
-    
-    return to_char(round(l_bytes,1))||
-           case when l_div=1000 then l_10si(l_idx) else l_2iec(l_idx) end;
-  end format_bytes;
+    l_floor := floor(log(c_bin_div, l_bytes));
+    return to_char( 
+            round( l_bytes/power(c_bin_div, l_floor), 1)
+           )||c_bin_iec(l_floor+1);
+  end format_bytes_binary;
+--------------------------------------------------------------------------------
+  function format_bytes_decimal(
+      a_bytes in number)
+    return varchar2 deterministic
+  is
+    $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
+    type ts is varray(7) of varchar2(2 char);
+    c_dec_si constant ts:=ts('B', 'kB', 'MB',  'GB', 'TB', 'PB', 'EB');
+    c_dec_div constant simple_integer:=1000;
+    l_bytes naturaln:=a_bytes; 
+    l_floor decimal;
+  begin
+    l_floor := floor(log(c_dec_div, l_bytes));
+    return to_char( 
+            round( l_bytes/power(c_dec_div, l_floor), 1)
+           )||c_dec_si(l_floor+1);
+  end format_bytes_decimal;
 --------------------------------------------------------------------------------
   function format_seconds(
       a_seconds in number)
@@ -162,6 +183,33 @@ as
       || c_dp
       || lpad( mod(l_seconds,c_ss) ,c_pl,c_pc);
   end format_seconds;
+--------------------------------------------------------------------------------
+  function hex_to_rgb(
+    a_hex in varchar2) 
+  return varchar2 deterministic
+  is
+    $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
+    c_ss constant pls_integer:=60;
+    c_sp constant vc2_xs not null:='#';
+    c_nm2 constant simple_integer:=2;
+    c_nm3 constant simple_integer:=3;
+    c_rgb constant vc2_s not null:='rgb(';
+    c_hex constant vc2_s not null:='xx';
+    c_col constant vc2_s not null:=', ';
+    c_end constant vc2_s not null:=')';
+    l_hex vc2_s not null:=a_hex;
+  begin
+    l_hex:=ltrim(l_hex,c_sp);
+    if length(l_hex)=c_nm3 then
+      l_hex:=substr(l_hex,1,1)||substr(l_hex,1,1)||
+             substr(l_hex,c_nm2,1)||substr(l_hex,c_nm2,1)||
+             substr(l_hex,c_nm3,1)||substr(l_hex,c_nm3,1);
+    end if;
+     return c_rgb||to_number(substr(l_hex,1,c_nm2),c_hex)||c_col
+                 ||to_number(substr(l_hex,c_nm3,c_nm2),c_hex)||c_col
+                 ||to_number(substr(l_hex,c_nm3+c_nm2,c_nm2),c_hex)
+            ||c_end;
+  end hex_to_rgb;
 --------------------------------------------------------------------------------
   function is_leap_year(
       a_year in date)
@@ -188,6 +236,34 @@ as
     end if;
     return l_out;
   end is_leap_year;
+--------------------------------------------------------------------------------
+  function rgb_to_hex(
+      a_red   in number,
+      a_green in number,
+      a_blue  in number) 
+    return varchar2 deterministic
+  is
+    $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
+    c_pfx constant vc2_xs:='#';
+    c_fmt constant vc2_s:='fm0x';
+    l_red   unsigned_octet:=a_red;
+    l_green unsigned_octet:=a_green;
+    l_blue  unsigned_octet:=a_blue;
+  begin
+    return c_pfx||
+      to_char(l_red, c_fmt)||to_char(l_green, c_fmt)||to_char(l_blue, c_fmt);
+  end rgb_to_hex;
+--------------------------------------------------------------------------------
+  function unix_timestamp_to_date(
+      a_unix_timestamp in number)
+    return date deterministic
+  is
+    $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
+    c_div constant simple_integer:=86400;    
+    l_unix_timestamp pls_integer:=a_unix_timestamp;
+  begin
+    return c_unix_epti+l_unix_timestamp/c_div;
+  end unix_timestamp_to_date;
 --------------------------------------------------------------------------------
 end plutil;
 /

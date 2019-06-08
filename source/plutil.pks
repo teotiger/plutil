@@ -19,6 +19,8 @@ as
   subtype vc_l is varchar2_l;
   subtype vc_xl is varchar2_xl;
   subtype bool is binary_integer range 0..1 not null;
+  subtype unsigned_int8 is binary_integer range 0..255 not null;
+  subtype unsigned_octet is unsigned_int8;
   /****************************************************************************
   *** COLLECTION TYPES
   ****************************************************************************/
@@ -53,6 +55,12 @@ as
   -- This function returns the current iso locale (ISO-3166).
   function current_iso_locale
     return varchar2 deterministic;
+  -- This function converts a (UTC) date into the unix timestamp (number of 
+  -- seconds since the unix epoch time on January 1st, 1970).
+  -- @A date greater than January 1st, 1970.
+  function date_to_unix_timestamp(
+      a_date in date)
+    return number deterministic;  
   -- This function returns the number of days in the month.
   -- @The date to check.
   function days_in_month(
@@ -68,17 +76,25 @@ as
   function days_in_year(
       a_year in integer)
     return integer deterministic;
-  -- This function formats the number of bytes.
+  -- This function formats the number of bytes. Base is 2.
   -- @The number of bytes.
-  -- @The base. Must be 2 (default) or 10. If not, base 2 is used.
-  function format_bytes(
-      a_bytes in number,
-      a_base  in number default 2)
+  function format_bytes_binary(
+      a_bytes in number)
+    return varchar2 deterministic;  
+  -- This function formats the number of bytes. Base is 10.
+  -- @The number of bytes.
+  function format_bytes_decimal(
+      a_bytes in number)
     return varchar2 deterministic;  
   -- This function formats the number of seconds.
   -- @The number of seconds.
   function format_seconds(
       a_seconds in number)
+    return varchar2 deterministic;
+  -- This function converts a hexadecimal color value into RGB color values.
+  -- @A valid hexadecimal color value.
+  function hex_to_rgb(
+      a_hex in varchar2) 
     return varchar2 deterministic;
   -- This function checks if the date is a leap year or not.
   -- @The date to check.
@@ -90,5 +106,20 @@ as
   function is_leap_year(
       a_year in pls_integer)
     return boolean deterministic;
+  -- This function converts RGB color values into a hexadecimal color value.
+  -- @A valid value between 0 and 255 for the red color.
+  -- @A valid value between 0 and 255 for the green color.
+  -- @A valid value between 0 and 255 for the blue color.
+  function rgb_to_hex(
+      a_red   in number,
+      a_green in number,
+      a_blue  in number) 
+    return varchar2 deterministic;
+  -- This function converts the unix timestamp (number of seconds since the 
+  -- unix epoch time on January 1st, 1970) to a valid (UTC) date.
+  -- @The number of seconds.
+  function unix_timestamp_to_date(
+      a_unix_timestamp in number)
+    return date deterministic;
 end plutil;
 /

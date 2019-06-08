@@ -18,10 +18,10 @@ Parameter
 ---------
 
 ===================== =====================
-Parametername         Parameterbeschreibung
+Parameter             Description
 ===================== =====================
-P_STRING              The string to surround by a character.
-P_LENGTH              The total length of the returned expression.
-P_CHAR                The character to surround the passed the string.
+A_STRING              The string to surround by a character.
+A_LENGTH              The total length of the returned expression.
+A_CHAR                The character to surround the passed the string.
 ===================== =====================
 

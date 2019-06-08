@@ -1,15 +1,15 @@
-FORMAT_SECONDS Function
-=======================
+FORMAT_BYTES_BINARY Function
+============================
 
-This function formats the number of seconds.
+This function formats the number of bytes. Base is 2.
 
 Syntax
 ------
 
 .. code-block:: SQL
 
-  PLUTIL.FORMAT_SECONDS (
-    p_seconds  IN  NUMBER)
+  PLUTIL.FORMAT_BYTES_BINARY (
+    a_bytes   IN NUMBER)
   RETURN VARCHAR2;
 
 Parameter
@@ -18,6 +18,6 @@ Parameter
 ===================== =====================
 Parameter             Description
 ===================== =====================
-A_SECONDS             The number of seconds.
+A_BYTES               The number of bytes.
 ===================== =====================
 

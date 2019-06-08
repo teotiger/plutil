@@ -2,17 +2,32 @@ create or replace package plutil_test authid definer as
 
   -- %suite(UnitTests for PLUTIL functions)
 
-  -- %test(Returns 1,7KiB)
-  procedure format_bytes_base2default;  
+  -- %test(Returns 1)
+  procedure date_to_unix_timestamp_min;
 
+  -- %test(Returns 20:45:52 Friday, 13 December 1901 UTC)
+  procedure unix_timestamp_to_date_min;
+
+  -- %test(Returns 03:14:07 Tuesday, 19 January 2038 UTC)
+  procedure unix_timestamp_to_date_max;
+
+  -- %test(Returns rgb(255, 0, 0))
+  procedure hex_to_rgb_red;
+
+  -- %test(Returns #FF0000)
+  procedure rgb_to_hex_red;
+
+  -- %test(Returns 1,7KiB)
+  procedure format_bytes_binary_small;
+  
   -- %test(Returns 1,7kB)
-  procedure format_bytes_base10;
+  procedure format_bytes_decimal_small;
   
   -- %test(Returns 1GiB)
-  procedure format_bytes_big_base2;
+  procedure format_bytes_binary_big;
   
   -- %test(Returns 1,1GB)
-  procedure format_bytes_big_base10;
+  procedure format_bytes_decimal_big;
 			  
   -- %test(Returns 00:59)
   procedure format_seconds_59;

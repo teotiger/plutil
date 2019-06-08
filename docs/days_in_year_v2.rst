@@ -16,8 +16,8 @@ Parameter
 ---------
 
 ===================== =====================
-Parametername         Parameterbeschreibung
+Parameter             Description
 ===================== =====================
-P_YEAR                
+A_YEAR                The year to check.
 ===================== =====================
 
