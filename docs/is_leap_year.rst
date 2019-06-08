@@ -9,7 +9,7 @@ Syntax
 .. code-block:: SQL
 
   PLUTIL.IS_LEAP_YEAR (
-    p_year  IN  DATE)
+    a_date  IN  DATE)
   RETURN PL/SQL BOOLEAN;
 
 Parameter
@@ -18,6 +18,6 @@ Parameter
 ===================== =====================
 Parameter             Description
 ===================== =====================
-A_YEAR                The date to check.
+A_DATE                The date to check.
 ===================== =====================
 

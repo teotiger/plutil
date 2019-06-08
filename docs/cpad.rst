@@ -9,9 +9,9 @@ Syntax
 .. code-block:: SQL
 
   PLUTIL.CPAD (
-    p_string  IN  VARCHAR2,
-    p_length  IN  NUMBER,
-    p_char    IN  VARCHAR2)
+    a_string  IN  VARCHAR2,
+    a_length  IN  NUMBER,
+    a_char    IN  VARCHAR2)
   RETURN VARCHAR2;
 
 Parameter

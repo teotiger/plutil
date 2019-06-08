@@ -9,7 +9,7 @@ Syntax
 .. code-block:: SQL
 
   PLUTIL.FORMAT_SECONDS (
-    p_seconds  IN  NUMBER)
+    a_seconds  IN  NUMBER)
   RETURN VARCHAR2;
 
 Parameter

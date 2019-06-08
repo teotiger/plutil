@@ -9,7 +9,7 @@ Syntax
 .. code-block:: SQL
 
   PLUTIL.DAYS_IN_MONTH (
-    p_month  IN  DATE)
+    a_month  IN  DATE)
   RETURN NUMBER;
 
 Parameter

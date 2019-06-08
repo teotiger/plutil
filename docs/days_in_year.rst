@@ -9,7 +9,7 @@ Syntax
 .. code-block:: SQL
 
   PLUTIL.DAYS_IN_YEAR (
-    p_year  IN  DATE)
+    a_year  IN  DATE)
   RETURN NUMBER;
 
 Parameter

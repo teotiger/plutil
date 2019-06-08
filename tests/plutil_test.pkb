@@ -1,5 +1,20 @@
 create or replace package body plutil_test as
 --------------------------------------------------------------------------------
+  procedure is_leap_year_2000 is
+    c_2000 constant date:=to_date(20000101,'yyyymmdd');
+  begin
+    ut.expect( 
+      plutil.is_leap_year( a_date => c_2000 ) ).to_( equal(true)
+    );  
+  end is_leap_year_2000;
+--------------------------------------------------------------------------------
+  procedure days_in_month_jan is
+  begin
+    ut.expect( 
+      plutil.days_in_month( to_date(22011995,'ddmmyyyy') ) ).to_( equal(31)
+    );
+  end days_in_month_jan;
+--------------------------------------------------------------------------------
   procedure date_to_unix_timestamp_min is
   begin
     ut.expect(

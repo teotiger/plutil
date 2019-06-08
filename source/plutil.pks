@@ -99,7 +99,7 @@ as
   -- This function checks if the date is a leap year or not.
   -- @The date to check.
   function is_leap_year(
-      a_year in date)
+      a_date in date)
     return boolean deterministic;
   -- This function checks if the year is a leap year or not.
   -- @The year in the format YYYY.

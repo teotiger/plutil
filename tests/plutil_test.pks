@@ -2,6 +2,12 @@ create or replace package plutil_test authid definer as
 
   -- %suite(UnitTests for PLUTIL functions)
 
+  -- %test(Returns true)
+  procedure is_leap_year_2000;
+
+  -- %test(Returns 31)
+  procedure days_in_month_jan;
+
   -- %test(Returns 1)
   procedure date_to_unix_timestamp_min;
 

@@ -189,7 +189,6 @@ as
   return varchar2 deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
-    c_ss constant pls_integer:=60;
     c_sp constant vc2_xs not null:='#';
     c_nm2 constant simple_integer:=2;
     c_nm3 constant simple_integer:=3;
@@ -212,12 +211,12 @@ as
   end hex_to_rgb;
 --------------------------------------------------------------------------------
   function is_leap_year(
-      a_year in date)
+      a_date in date)
     return boolean deterministic
   is
-    l_year date not null:=a_year;
+    l_date date not null:=a_date;
   begin
-    return is_leap_year(extract(year from l_year));
+    return is_leap_year(extract(year from l_date));
   end is_leap_year;
 --------------------------------------------------------------------------------
   function is_leap_year(

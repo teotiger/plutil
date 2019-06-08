@@ -9,7 +9,7 @@ Syntax
 .. code-block:: SQL
 
   PLUTIL.IS_LEAP_YEAR (
-    p_year  IN  BINARY_INTEGER)
+    a_year  IN  BINARY_INTEGER)
   RETURN PL/SQL BOOLEAN;
 
 Parameter
