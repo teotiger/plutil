@@ -239,7 +239,7 @@ as
   function rgb_to_hex(
       a_red   in number,
       a_green in number,
-      a_blue  in number) 
+      a_blue  in number)
     return varchar2 deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
@@ -252,6 +252,110 @@ as
     return c_pfx||
       to_char(l_red, c_fmt)||to_char(l_green, c_fmt)||to_char(l_blue, c_fmt);
   end rgb_to_hex;
+--------------------------------------------------------------------------------
+  function split_to_list(
+      a_text_value      in varchar2,
+      a_delimiter       in varchar2,
+      a_enclosure       in varchar2,
+      a_trim_enclosure  in boolean)
+    return sys.dbmsoutput_linesarray deterministic
+  is
+    -- escape char
+    c_esc constant vc2_xs:='\';
+    l_txt vc2_xl null:=a_text_value;
+    l_del vc2_xs not null:=a_delimiter;  
+    l_enc vc2_xs null:=a_enclosure;
+     -- is_trim
+    l_ist boolean:=a_trim_enclosure;
+    l_out sys.dbmsoutput_linesarray;
+    l_len pls_integer;
+    l_pos pls_integer:=1;
+    l_cur vc2_xs;
+    l_tmp vc2_xl;
+    -- is_blocked
+    l_isb boolean:=false;
+    ---TODO Trivadis PL/SQL Cop
+    procedure save_value is
+    begin
+      l_out.extend;
+      if l_ist then
+        l_tmp:=trim(both l_enc from l_tmp);
+      end if;
+      l_out(l_out.count):=l_tmp;
+      l_tmp:=null;
+    end save_value;
+
+  begin
+    l_len:=length(l_txt);
+    if l_len is null then
+      l_len:=0;
+    else
+      l_out:=sys.dbmsoutput_linesarray();
+    end if;
+
+    -- wenn kein enclosure null dann einfach mode, sonst complicated
+    <<char_looping>>
+    while l_pos<=l_len
+    loop
+      -- find the current and the next character
+      l_cur:=substr(l_txt, l_pos, 1);
+
+      -- in case of escaped enclosure append enc and skip 2 positions
+      if l_cur=c_esc and substr(l_txt, l_pos+1, 1)=l_enc then
+        l_tmp:=l_tmp||l_enc;
+        l_pos:=l_pos+1+1;
+        continue;
+      end if;
+      -- set blocker if enclosure found
+      if l_cur=l_enc then
+        -- toggle blocked mode
+        l_isb:=not l_isb;
+      end if;
+
+      -- add collection element if delimiter
+      if l_cur=l_del and not l_isb then
+        save_value;
+      end if;
+
+      -- append if not delimiter
+      if l_cur!=l_del or l_isb then
+        l_tmp:=l_tmp||l_cur;
+      end if;
+      -- add collection element if last position
+      if l_pos=l_len then
+        save_value;
+      end if;
+
+      l_pos:=l_pos+1;
+    end loop char_looping;
+
+    return l_out;
+  end split_to_list;
+--------------------------------------------------------------------------------
+  function split_tt(
+      a_text_value      in varchar2,
+      a_delimiter       in varchar2,
+      a_enclosure       in varchar2,
+      a_trim_enclosure  in bool)
+    return sys.ora_mining_varchar2_nt pipelined deterministic
+  is
+    $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
+    l_txt vc2_xl null:=a_text_value;
+    l_del vc2_xs not null:=a_delimiter;  
+    l_enc vc2_xs null:=a_enclosure;
+    l_tfl bool:=a_trim_enclosure; -- trim flag
+    l_arr sys.dbmsoutput_linesarray;
+  begin
+    l_arr:=split_to_list(a_text_value => l_txt,
+                         a_delimiter => l_del,
+                         a_enclosure => l_enc,
+                         a_trim_enclosure => l_tfl=1);
+    <<loop_through_array>>
+    for i in 1..l_arr.count loop
+      pipe row(l_arr(i));
+    end loop loop_through_array;
+    return;
+  end split_tt;
 --------------------------------------------------------------------------------
   function unix_timestamp_to_date(
       a_unix_timestamp in number)

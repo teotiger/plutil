@@ -115,6 +115,30 @@ as
       a_green in number,
       a_blue  in number) 
     return varchar2 deterministic;
+  -- This functions splits a string into a varray. Each element can have a
+  -- length of max. 32767 chars.
+  -- @A (character-delimited) text.
+  -- @One char length delimiter.
+  -- @An optional enclosure char.
+  -- @Remove the enclosure from element if true.
+  function split_to_list(
+      a_text_value      in varchar2,
+      a_delimiter       in varchar2,
+      a_enclosure       in varchar2,
+      a_trim_enclosure  in boolean)
+    return sys.dbmsoutput_linesarray deterministic;
+  -- This functions splits a string into a nested table. Each element can have a
+  -- length of max. 4000 chars (splitted value may be trimmed).
+  -- @A (character-delimited) text.
+  -- @A one char length delimiter.
+  -- @An optional enclosure char.
+  -- @Remove the enclosure from element if true.
+  function split_tt(
+      a_text_value      in varchar2,
+      a_delimiter       in varchar2,
+      a_enclosure       in varchar2,
+      a_trim_enclosure  in bool)
+    return sys.ora_mining_varchar2_nt pipelined deterministic;
   -- This function converts the unix timestamp (number of seconds since the 
   -- unix epoch time on January 1st, 1970) to a valid (UTC) date.
   -- @The number of seconds.
