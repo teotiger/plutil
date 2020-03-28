@@ -20,8 +20,7 @@ PLUtil use [utPLSQL](https://github.com/utPLSQL) for UnitTests. The results and 
 ## Version History
 Version 0.5 – March 28, 2020
 
-- new functions added (split_tt, split_to_list, prn)
-- new tests and better code coverage
+- new functions added (split_tt, split_to_list)
 
 Version 0.4 – June 8, 2019
 
