@@ -143,7 +143,7 @@ as
   -- @A (character-delimited) text.
   -- @A one char length delimiter.
   -- @An optional enclosure char.
-  -- @Remove the enclosure from element if true.
+  -- @Remove the enclosure from element if 1.
   function split_tt(
       a_string          in varchar2,
       a_delimiter       in varchar2,

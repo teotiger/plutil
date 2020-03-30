@@ -73,6 +73,9 @@ create or replace package plutil_test authid definer as
   -- %test(IS_LEAP_YEAR returns true for 2000.)
   procedure is_leap_year_2000;
 
+--prn
+--replace_multi
+
   -- %test(RGB_TO_HEX returns #FF0000 for 255,0,0.)
   procedure rgb_to_hex_red;
 

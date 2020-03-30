@@ -5,7 +5,7 @@ create or replace package body plutil_test as
     c_exp constant pls_integer:=31;
   begin
     ut.expect(
-      a_actual => plutil.days_in_month(a_month=>c_act)
+      a_actual => plutil.days_in_month(a_month => c_act)
     ).to_equal( 
       a_expected => c_exp
     );
@@ -16,7 +16,7 @@ create or replace package body plutil_test as
     c_days constant pls_integer:=366;
   begin
     ut.expect(
-      a_actual => plutil.days_in_year(a_year=>c_year)
+      a_actual => plutil.days_in_year(a_year => c_year)
     ).to_equal(
       a_expected => c_days
     );
@@ -27,8 +27,10 @@ create or replace package body plutil_test as
     c_days constant pls_integer:=365;
   begin
     ut.expect(
-      plutil.days_in_year(a_year=>c_year)
-    ).to_( equal(c_days) );
+      a_actual => plutil.days_in_year(a_year => c_year)
+    ).to_equal(
+      a_expected => c_days
+    );
   end days_in_year_1998;
 --------------------------------------------------------------------------------
   procedure days_in_year_1999 is
@@ -36,8 +38,10 @@ create or replace package body plutil_test as
     c_days constant pls_integer:=365;
   begin
     ut.expect(
-      plutil.days_in_year(a_year=>c_year)
-    ).to_( equal(c_days) );
+      a_actual => plutil.days_in_year(a_year => c_year)
+    ).to_equal(
+      a_expected => c_days
+    );
   end days_in_year_1999;
 --------------------------------------------------------------------------------
   procedure days_in_year_2000 is
@@ -45,8 +49,10 @@ create or replace package body plutil_test as
     c_days constant pls_integer:=366;
   begin
     ut.expect(
-      plutil.days_in_year(a_year=>c_year)
-    ).to_( equal(c_days) );
+      a_actual => plutil.days_in_year(a_year => c_year)
+    ).to_equal(
+      a_expected => c_days
+    );
   end days_in_year_2000;
 --------------------------------------------------------------------------------
   procedure days_in_year_1600 is
@@ -54,8 +60,10 @@ create or replace package body plutil_test as
     c_days constant pls_integer:=366;
   begin
     ut.expect(
-      plutil.days_in_year(a_year=>c_year)
-    ).to_( equal(c_days) );
+      a_actual => plutil.days_in_year(a_year => c_year)
+    ).to_equal(
+      a_expected => c_days
+    );
   end days_in_year_1600;
 --------------------------------------------------------------------------------
   procedure days_in_year_1900 is
@@ -63,8 +71,10 @@ create or replace package body plutil_test as
     c_days constant pls_integer:=365;
   begin
     ut.expect(
-      plutil.days_in_year(a_year=>c_year)
-    ).to_( equal(c_days) );
+      a_actual => plutil.days_in_year(a_year => c_year)
+    ).to_equal(
+      a_expected => c_days
+    );
   end days_in_year_1900;
 --------------------------------------------------------------------------------
   procedure days_in_year_1904 is
@@ -72,8 +82,10 @@ create or replace package body plutil_test as
     c_days constant pls_integer:=366;
   begin
     ut.expect(
-      plutil.days_in_year(a_year=>c_year)
-    ).to_( equal(c_days) );
+      a_actual => plutil.days_in_year(a_year => c_year)
+    ).to_equal(
+      a_expected => c_days
+    );
   end days_in_year_1904;
 --------------------------------------------------------------------------------
   procedure days_in_year_1800 is
@@ -81,15 +93,21 @@ create or replace package body plutil_test as
     c_days constant pls_integer:=365;
   begin
     ut.expect(
-      plutil.days_in_year(a_year=>c_year)
-    ).to_( equal(c_days) );
+      a_actual => plutil.days_in_year(a_year => c_year)
+    ).to_equal(
+      a_expected => c_days
+    );
   end days_in_year_1800;
 --------------------------------------------------------------------------------
   procedure date_to_unix_timestamp_min is
   begin
     ut.expect(
-      plutil.date_to_unix_timestamp(a_date=>plutil.unix_timestamp_to_date(1))
-    ).to_( equal(1) );
+      a_actual => plutil.date_to_unix_timestamp(
+                    a_date => plutil.unix_timestamp_to_date(1)
+                  )
+    ).to_equal(
+      a_expected => 1
+    );
   end date_to_unix_timestamp_min;
 --------------------------------------------------------------------------------
   procedure format_bytes_binary_small is
@@ -320,8 +338,10 @@ create or replace package body plutil_test as
                                 a_enclosure => c_enc,
                                 a_trim_enclosure => c_ist);
     ut.expect(
-      anydata.convertCollection(l_act) 
-    ).to_( equal( anydata.convertCollection(l_exp) ) );
+      a_actual => anydata.convertCollection(l_act)
+    ).to_equal( 
+      a_expected => anydata.convertCollection(l_exp)
+    );
   end split_to_list_null;
 --------------------------------------------------------------------------------
   procedure split_tt_agg is

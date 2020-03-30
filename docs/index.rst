@@ -20,4 +20,6 @@ PLUTIL package
   is_leap_year
   is_leap_year_v2
   rgb_to_hex
+  split_to_list
+  split_tt
   unix_timestamp_to_date
