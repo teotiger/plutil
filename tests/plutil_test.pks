@@ -96,9 +96,6 @@ create or replace package plutil_test authid definer as
     -- %test(SPLIT_TT in combination with LISTAGG return the input text value.)
     procedure split_tt_agg;
 
-
---split_tt
-
   --%endcontext
 
   -- %test(UNIX_TIMESTAMP_TO_DATE returns 20:45:52 Friday, 13 December 1901 UTC for the minimum value -2^31.)

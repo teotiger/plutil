@@ -106,6 +106,17 @@ as
   function is_leap_year(
       a_year in pls_integer)
     return boolean deterministic;
+  -- Print text to DBMS_OUTPUT (wrapper for PUT_LINE and NEW_LINE procedure).
+  -- @The text to print. If paramater is null, empty line is added.
+  procedure prn(
+      a_string in varchar2);
+  -- Replace string '#1#', '#2#' ... '#n#' with element n from the collection.
+  -- @A text with placeholders.
+  -- @A list of replace strings.
+  function replace_multi(
+      a_string          in varchar2,
+      a_replace_strings in sys.ora_mining_varchar2_nt)
+    return varchar2 deterministic;
   -- This function converts RGB color values into a hexadecimal color value.
   -- @A valid value between 0 and 255 for the red color.
   -- @A valid value between 0 and 255 for the green color.
@@ -122,19 +133,19 @@ as
   -- @An optional enclosure char.
   -- @Remove the enclosure from element if true.
   function split_to_list(
-      a_text_value      in varchar2,
+      a_string          in varchar2,
       a_delimiter       in varchar2,
       a_enclosure       in varchar2,
       a_trim_enclosure  in boolean)
     return sys.dbmsoutput_linesarray deterministic;
-  -- This functions splits a string into a nested table. Each element can have a
-  -- length of max. 4000 chars (splitted value may be trimmed).
+  -- This functions splits a string into a nested table. Each element can have
+  -- a length of max. 4000 chars.
   -- @A (character-delimited) text.
   -- @A one char length delimiter.
   -- @An optional enclosure char.
   -- @Remove the enclosure from element if true.
   function split_tt(
-      a_text_value      in varchar2,
+      a_string          in varchar2,
       a_delimiter       in varchar2,
       a_enclosure       in varchar2,
       a_trim_enclosure  in bool)

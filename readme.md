@@ -18,9 +18,10 @@ PLUtil is released under the [MIT license](https://github.com/teotiger/plutil/bl
 PLUtil use [utPLSQL](https://github.com/utPLSQL) for UnitTests. The results and some static analysis of the source code can be found on [SonarCloud.io](https://sonarcloud.io/dashboard?id=teotiger_plutil).
 
 ## Version History
-Version 0.5 – March 28, 2020
+Version 0.5 – March 30, 2020
 
-- new functions added (split_tt, split_to_list)
+- new functions added (split_to_list, split_tt, replace_multi, prn)
+- more unit tests and better code coverage
 
 Version 0.4 – June 8, 2019
 

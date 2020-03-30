@@ -220,7 +220,7 @@ create or replace package body plutil_test as
       :=sys.dbmsoutput_linesarray('abc','defghij','X  Y123Z',null,null);
     l_act sys.dbmsoutput_linesarray;
   begin
-    l_act:=plutil.split_to_list(a_text_value => c_csv,
+    l_act:=plutil.split_to_list(a_string => c_csv,
                                 a_delimiter => c_del,
                                 a_enclosure => c_enc,
                                 a_trim_enclosure => c_ist);
@@ -252,7 +252,7 @@ create or replace package body plutil_test as
       l_ccc:=l_ccc||c_char_c;
       l_ddd:=l_ddd||c_char_d;
     end loop assign_data_to_variables;
-    l_act:=plutil.split_to_list(a_text_value => l_aaa||c_del||
+    l_act:=plutil.split_to_list(a_string => l_aaa||c_del||
                                                 l_bbb||c_del||
                                                 l_ccc||c_del||
                                                 l_ddd,
@@ -279,7 +279,7 @@ create or replace package body plutil_test as
     while nvl(length(l_big),0)<c_32k loop
       l_big:=l_big||c_char_a;
     end loop assign_data_to_variables;
-    l_act:=plutil.split_to_list(a_text_value => l_big,
+    l_act:=plutil.split_to_list(a_string => l_big,
                                 a_delimiter => c_del,
                                 a_enclosure => c_enc,
                                 a_trim_enclosure => c_ist);
@@ -298,7 +298,7 @@ create or replace package body plutil_test as
       :=sys.dbmsoutput_linesarray('abc','defghij','X  Y1"23Z',null,null);
     l_act sys.dbmsoutput_linesarray;
   begin
-    l_act:=plutil.split_to_list(a_text_value => c_csv,
+    l_act:=plutil.split_to_list(a_string => c_csv,
                                 a_delimiter => c_del,
                                 a_enclosure => c_enc,
                                 a_trim_enclosure => c_ist);
@@ -315,7 +315,7 @@ create or replace package body plutil_test as
     l_exp sys.dbmsoutput_linesarray;
     l_act sys.dbmsoutput_linesarray;
   begin
-    l_act:=plutil.split_to_list(a_text_value => c_csv,
+    l_act:=plutil.split_to_list(a_string => c_csv,
                                 a_delimiter => c_del,
                                 a_enclosure => c_enc,
                                 a_trim_enclosure => c_ist);
@@ -331,7 +331,7 @@ create or replace package body plutil_test as
     c_ist constant plutil.bool:=0;
     l_act plutil.vc2_s;
   begin
-    select listagg(column_value,c_del) within group(order by 1) 
+    select listagg(column_value,c_del) within group(order by column_value) 
       into l_act
       from table(plutil.split_tt(c_csv,c_del,c_enc,c_ist));
     ut.expect(

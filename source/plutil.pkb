@@ -236,6 +236,39 @@ as
     return l_out;
   end is_leap_year;
 --------------------------------------------------------------------------------
+  procedure prn(
+      a_string in varchar2)
+  is
+    l_txt vc2_l := a_string;
+  begin
+    if l_txt is null then
+      sys.dbms_output.new_line;
+    else
+      sys.dbms_output.put_line(l_txt);
+    end if;
+  end prn;
+--------------------------------------------------------------------------------
+  function replace_multi(
+      a_string          in varchar2,
+      a_replace_strings in sys.ora_mining_varchar2_nt)
+    return varchar2 deterministic
+  is
+    c_enc constant vc2_xs:='#';
+    l_txt vc2_l:=a_string;
+    l_rep sys.ora_mining_varchar2_nt:=a_replace_strings;
+    l_idx pls_integer;
+  begin
+    if l_rep is not null then
+      l_idx:=l_rep.first;
+    end if;
+    <<replace_loop>>
+    while l_idx is not null loop
+      l_txt:=replace(l_txt,c_enc||l_idx||c_enc,l_rep(l_idx));
+      l_idx:=l_rep.next(l_idx);
+    end loop replace_loop;
+    return l_txt;
+  end replace_multi;
+--------------------------------------------------------------------------------
   function rgb_to_hex(
       a_red   in number,
       a_green in number,
@@ -254,7 +287,7 @@ as
   end rgb_to_hex;
 --------------------------------------------------------------------------------
   function split_to_list(
-      a_text_value      in varchar2,
+      a_string          in varchar2,
       a_delimiter       in varchar2,
       a_enclosure       in varchar2,
       a_trim_enclosure  in boolean)
@@ -262,7 +295,7 @@ as
   is
     -- escape char
     c_esc constant vc2_xs:='\';
-    l_txt vc2_xl null:=a_text_value;
+    l_txt vc2_xl null:=a_string;
     l_del vc2_xs not null:=a_delimiter;  
     l_enc vc2_xs null:=a_enclosure;
      -- is_trim
@@ -274,17 +307,6 @@ as
     l_tmp vc2_xl;
     -- is_blocked
     l_isb boolean:=false;
-    ---TODO Trivadis PL/SQL Cop
-    procedure save_value is
-    begin
-      l_out.extend;
-      if l_ist then
-        l_tmp:=trim(both l_enc from l_tmp);
-      end if;
-      l_out(l_out.count):=l_tmp;
-      l_tmp:=null;
-    end save_value;
-
   begin
     l_len:=length(l_txt);
     if l_len is null then
@@ -293,7 +315,6 @@ as
       l_out:=sys.dbmsoutput_linesarray();
     end if;
 
-    -- wenn kein enclosure null dann einfach mode, sonst complicated
     <<char_looping>>
     while l_pos<=l_len
     loop
@@ -306,6 +327,7 @@ as
         l_pos:=l_pos+1+1;
         continue;
       end if;
+
       -- set blocker if enclosure found
       if l_cur=l_enc then
         -- toggle blocked mode
@@ -314,18 +336,30 @@ as
 
       -- add collection element if delimiter
       if l_cur=l_del and not l_isb then
-        save_value;
+        l_out.extend;
+        l_out(l_out.count):=case when l_ist 
+                              then trim(both l_enc from l_tmp) 
+                              else l_tmp 
+                            end;
+        -- reset tmp variable
+        l_tmp:=null;
       end if;
 
       -- append if not delimiter
       if l_cur!=l_del or l_isb then
         l_tmp:=l_tmp||l_cur;
       end if;
+
       -- add collection element if last position
       if l_pos=l_len then
-        save_value;
+        l_out.extend;
+        l_out(l_out.count):=case when l_ist 
+                              then trim(both l_enc from l_tmp) 
+                              else l_tmp 
+                            end;
       end if;
 
+      -- increment position
       l_pos:=l_pos+1;
     end loop char_looping;
 
@@ -333,26 +367,31 @@ as
   end split_to_list;
 --------------------------------------------------------------------------------
   function split_tt(
-      a_text_value      in varchar2,
+      a_string          in varchar2,
       a_delimiter       in varchar2,
       a_enclosure       in varchar2,
       a_trim_enclosure  in bool)
     return sys.ora_mining_varchar2_nt pipelined deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
-    l_txt vc2_xl null:=a_text_value;
+    l_txt vc2_xl null:=a_string;
     l_del vc2_xs not null:=a_delimiter;  
     l_enc vc2_xs null:=a_enclosure;
     l_tfl bool:=a_trim_enclosure; -- trim flag
     l_arr sys.dbmsoutput_linesarray;
+    l_idx pls_integer;
   begin
-    l_arr:=split_to_list(a_text_value => l_txt,
+    l_arr:=split_to_list(a_string => l_txt,
                          a_delimiter => l_del,
                          a_enclosure => l_enc,
                          a_trim_enclosure => l_tfl=1);
+    if l_arr is not null then
+      l_idx:=l_arr.first;
+    end if;
     <<loop_through_array>>
-    for i in 1..l_arr.count loop
-      pipe row(l_arr(i));
+    while l_idx is not null loop
+      pipe row(l_arr(l_idx));
+      l_idx:=l_arr.next(l_idx);
     end loop loop_through_array;
     return;
   end split_tt;
