@@ -250,6 +250,22 @@ as
 --------------------------------------------------------------------------------
   function replace_multi(
       a_string          in varchar2,
+      a_replace_strings in sys.dbmsoutput_linesarray)
+    return clob deterministic
+  is
+    c_enc constant vc2_xs:='#';
+    l_out clob:=a_string;
+    l_rep sys.dbmsoutput_linesarray:=a_replace_strings;
+  begin
+    <<replace_loop>>
+    for i in 1..l_rep.count loop
+      l_out:=replace(l_out,c_enc||i||c_enc,l_rep(i));
+    end loop replace_loop;
+    return l_out;
+  end replace_multi;
+--------------------------------------------------------------------------------
+  function replace_multi(
+      a_string          in varchar2,
       a_replace_strings in sys.ora_mining_varchar2_nt)
     return varchar2 deterministic
   is

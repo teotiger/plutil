@@ -115,6 +115,13 @@ as
   -- @A list of replace strings.
   function replace_multi(
       a_string          in varchar2,
+      a_replace_strings in sys.dbmsoutput_linesarray)
+    return clob deterministic;
+  -- Replace string '#1#', '#2#' ... '#n#' with element n from the collection.
+  -- @A text with placeholders.
+  -- @A list of replace strings.
+  function replace_multi(
+      a_string          in varchar2,
       a_replace_strings in sys.ora_mining_varchar2_nt)
     return varchar2 deterministic;
   -- This function converts RGB color values into a hexadecimal color value.
