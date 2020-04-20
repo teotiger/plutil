@@ -49,10 +49,11 @@ as
   -- This function returns the current charset.
   function current_charset
     return varchar2 deterministic;
-  -- This function returns the current iso language (ISO-3166).
+  -- This function returns the current iso language (ISO-639).
   function current_iso_language
     return varchar2 deterministic;
-  -- This function returns the current iso locale (ISO-3166).
+  -- This function returns the current iso locale including language (ISO-639)
+  -- and country (ISO-3166).
   function current_iso_locale
     return varchar2 deterministic;
   -- This function converts a (UTC) date into the unix timestamp (number of 
@@ -91,7 +92,7 @@ as
   function format_seconds(
       a_seconds in number)
     return varchar2 deterministic;
-  -- This function converts a hexadecimal color value into RGB color values.
+  -- This function converts a hexadecimal color value into a RGB color value.
   -- @A valid hexadecimal color value.
   function hex_to_rgb(
       a_hex in varchar2) 
@@ -99,7 +100,7 @@ as
   -- This function checks if the date is a leap year or not.
   -- @The date to check.
   function is_leap_year(
-      a_date in date)
+      a_year in date)
     return boolean deterministic;
   -- This function checks if the year is a leap year or not.
   -- @The year in the format YYYY.
@@ -109,7 +110,7 @@ as
   -- Print text to DBMS_OUTPUT (wrapper for PUT_LINE and NEW_LINE procedure).
   -- @The text to print. If paramater is null, empty line is added.
   procedure prn(
-      a_string in varchar2);
+      a_string in varchar2 default null);
   -- Replace string '#1#', '#2#' ... '#n#' with element n from the collection.
   -- @A text with placeholders.
   -- @A list of replace strings.
@@ -124,7 +125,7 @@ as
       a_string          in varchar2,
       a_replace_strings in sys.ora_mining_varchar2_nt)
     return varchar2 deterministic;
-  -- This function converts RGB color values into a hexadecimal color value.
+  -- This function converts a RGB color value into a hexadecimal color value.
   -- @A valid value between 0 and 255 for the red color.
   -- @A valid value between 0 and 255 for the green color.
   -- @A valid value between 0 and 255 for the blue color.

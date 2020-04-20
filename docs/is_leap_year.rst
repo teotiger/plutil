@@ -1,5 +1,5 @@
-IS_LEAP_YEAR Function
-=====================
+IS_LEAP_YEAR Function (1)
+=========================
 
 This function checks if the date is a leap year or not.
 
@@ -9,8 +9,8 @@ Syntax
 .. code-block:: SQL
 
   PLUTIL.IS_LEAP_YEAR (
-    a_date  IN  DATE)
-  RETURN PL/SQL BOOLEAN;
+    a_year  IN  DATE)
+  RETURN BOOLEAN;
 
 Parameter
 ---------

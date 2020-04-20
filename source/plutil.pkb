@@ -1,9 +1,5 @@
 create or replace package body plutil
 as
-  c_namespace constant vc2_s:='userenv'; -- sys_context namespace value
-  c_language  constant vc2_s:='language';-- sys_context parameter value
-  c_year_fmt  constant vc2_s:='yyyy';    -- year format string
-  c_unix_epti constant date:=to_date(19700101,'yyyymmdd');  
 --------------------------------------------------------------------------------
   function cpad(
       a_string in varchar2,
@@ -29,6 +25,8 @@ as
     return varchar2 deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
+    c_namespace constant vc2_s:='userenv';
+    c_language  constant vc2_s:='language';
     c_pattern   constant vc2_s   :='[[:alnum:]]*';
     c_position  constant positive:=1;
     c_occurence constant positive:=5;
@@ -45,6 +43,8 @@ as
     return varchar2 deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
+    c_namespace constant vc2_s:='userenv';
+    c_language  constant vc2_s:='language';
     c_pattern constant vc2_s:='[A-Z]+';
   begin
     return sys.utl_gdk.language_map(
@@ -60,6 +60,8 @@ as
     return varchar2 deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
+    c_namespace constant vc2_s:='userenv';
+    c_language  constant vc2_s:='language';
     c_pattern   constant vc2_s:='[A-Z]+';
     c_territory constant vc2_s:='nls_territory';
   begin
@@ -77,6 +79,7 @@ as
     return number deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
+    c_unix_epti constant date:=to_date(19700101,'yyyymmdd');
     c_div constant simple_integer:=86400;   
     l_date date not null:=a_date;
     l_out pls_integer;
@@ -103,6 +106,7 @@ as
     return integer deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end
+    c_year_fmt constant vc2_s:='yyyy';
     c_year_in_months constant pls_integer:=12;
     l_year date not null:=a_year;
     l_next_year date;
@@ -211,10 +215,10 @@ as
   end hex_to_rgb;
 --------------------------------------------------------------------------------
   function is_leap_year(
-      a_date in date)
+      a_year in date)
     return boolean deterministic
   is
-    l_date date not null:=a_date;
+    l_date date not null:=a_year;
   begin
     return is_leap_year(extract(year from l_date));
   end is_leap_year;
@@ -417,6 +421,7 @@ as
     return date deterministic
   is
     $if not sys.dbms_db_version.ver_le_11 $then pragma udf; $end  
+    c_unix_epti constant date:=to_date(19700101,'yyyymmdd');
     c_div constant simple_integer:=86400;    
     l_unix_timestamp pls_integer:=a_unix_timestamp;
   begin

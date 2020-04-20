@@ -1,7 +1,7 @@
 RGB_TO_HEX Function
 ===================
 
-This function converts RGB color values into a hexadecimal color value.
+This function converts a RGB color value into a hexadecimal color value.
 
 Syntax
 ------

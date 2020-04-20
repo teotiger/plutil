@@ -8,7 +8,6 @@ Syntax
 
 .. code-block:: SQL
 
-  PLUTIL.CURRENT_CHARSET
-  
+  PLUTIL.CURRENT_CHARSET  
   RETURN VARCHAR2;
 

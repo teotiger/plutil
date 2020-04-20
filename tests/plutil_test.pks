@@ -2,10 +2,17 @@ create or replace package plutil_test authid definer as
 
   -- %suite(UnitTests for PLUTIL functions)
 
---cpad
---current_charset
---current_iso_language
---current_iso_locale
+  -- %test(CPAD returns 1 for 01.01.1970 00:00:00 UTC.)
+  procedure cpad;
+
+  -- %test(CURRENT_CHARSET returns the same as querying nls_database_parameters.)
+  procedure current_charset;
+
+  -- %test(CURRENT_ISO_LANGUAGE returns a valid ISO-639 Code.)
+  procedure current_iso_language;
+
+  -- %test(CURRENT_ISO_LOCALE returns a combination of language (639) and country (3166) code.)
+  procedure current_iso_locale;
 
   -- %test(DATE_TO_UNIX_TIMESTAMP returns 1 for 01.01.1970 00:00:00 UTC.)
   procedure date_to_unix_timestamp_min;
@@ -73,8 +80,17 @@ create or replace package plutil_test authid definer as
   -- %test(IS_LEAP_YEAR returns true for 2000.)
   procedure is_leap_year_2000;
 
---prn
---replace_multi
+  -- %test(PRN is similiar to DBMS_OUTPUT.PUT_LINE procedure.)
+  procedure prn_text;
+
+  -- %test(PRN with null as text is similiar to DBMS_OUTPUT.NEW_LINE procedure.)
+  procedure prn_blank;
+
+  -- %test(REPLACE_MULTI return a string with multiple replacements.)
+  procedure replace_multi_sql;
+
+  -- %test(REPLACE_MULTI return a string with multiple replacements.)
+  procedure replace_multi_plsql;
 
   -- %test(RGB_TO_HEX returns #FF0000 for 255,0,0.)
   procedure rgb_to_hex_red;

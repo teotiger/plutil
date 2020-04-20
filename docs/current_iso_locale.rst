@@ -1,7 +1,7 @@
 CURRENT_ISO_LOCALE Function
 ===========================
 
-This function returns the current iso locale (ISO-3166).
+This function returns the current iso locale including language (ISO-639) and country (ISO-3166).
 
 Syntax
 ------
@@ -9,6 +9,5 @@ Syntax
 .. code-block:: SQL
 
   PLUTIL.CURRENT_ISO_LOCALE
-  
   RETURN VARCHAR2;
 
