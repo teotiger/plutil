@@ -19,6 +19,8 @@ PLUTIL package
   hex_to_rgb
   is_leap_year
   is_leap_year_v2
+  replace_multi
+  replace_multi_v2
   rgb_to_hex
   split_to_list
   split_tt
