@@ -159,7 +159,7 @@ create or replace package body plutil_test as
 --------------------------------------------------------------------------------
   procedure format_bytes_binary_small is
     c_act constant pls_integer:=1704;
-    c_exp constant plutil.vc2_s:='1,7KiB';
+    c_exp constant plutil.vc2_s:=1.7||'KiB';
   begin
     ut.expect(
       a_actual => plutil.format_bytes_binary(a_bytes => c_act)
@@ -181,7 +181,7 @@ create or replace package body plutil_test as
 --------------------------------------------------------------------------------
   procedure format_bytes_decimal_small is
     c_act constant pls_integer:=1704;
-    c_exp constant plutil.vc2_s:='1,7kB';
+    c_exp constant plutil.vc2_s:=1.7||'kB';
   begin
     ut.expect(
       a_actual => plutil.format_bytes_decimal(a_bytes => c_act)
@@ -192,7 +192,7 @@ create or replace package body plutil_test as
 --------------------------------------------------------------------------------
   procedure format_bytes_decimal_big is
     c_act constant pls_integer:=1024*1024*1024;
-    c_exp constant plutil.vc2_s:='1,1GB';
+    c_exp constant plutil.vc2_s:=1.1||'GB';
   begin
     ut.expect(
       a_actual => plutil.format_bytes_decimal(a_bytes => c_act)

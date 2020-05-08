@@ -18,6 +18,11 @@ as
   subtype vc_m is varchar2_m;
   subtype vc_l is varchar2_l;
   subtype vc_xl is varchar2_xl;
+  subtype str_xs is varchar2_xs;
+  subtype str_s is varchar2_s;
+  subtype str_m is varchar2_m;
+  subtype str_l is varchar2_l;
+  subtype str_xl is varchar2_xl;
   subtype bool is binary_integer range 0..1 not null;
   subtype unsigned_int8 is binary_integer range 0..255 not null;
   subtype unsigned_octet is unsigned_int8;
